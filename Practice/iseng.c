@@ -1,14 +1,38 @@
 #include <stdio.h>
 
+struct Data {
+    int absen;
+    char nama[2];
+    int mtk;
+    int ipa;
+};
+
 int main() {
 
-    // Pointer
-    int x = 13;
-    int * pX = &x;
-    int y = *pX;
-    printf("%d\n", y);
+    struct Data nilai[4]= {
+        {1, "aa", 90, 60},
+        {2, "bb", 80, 70},
+        {3, "cc", 70, 80},
+        {4, "dd", 60, 90}
+    };
+    
+    int inputAbsen;
+    printf("Absen : ");
+    scanf("%d", &inputAbsen);
 
-    //Tes Commit
+    int i = inputAbsen-1;
+        printf("Absen No. %d\n", inputAbsen);
+        printf("Nama : %s\n", nilai[i].nama);
+        printf("Nilai MTK : %d\n", nilai[i].mtk);
+        printf("Nilai IPA : %d", nilai[i].ipa);
+
+
+    // Pointer
+    // int x = 13;
+    // int * pX = &x;
+    // int y = *pX;
+    // printf("%d\n", y);
+
 
     // // Age w/ scanf
     // int age = 23;
