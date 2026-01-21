@@ -1,13 +1,21 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> //clear terminal
+#include <unistd.h> //sleep
 
 
 // Banner ATM
 void banner() {
-    int pilih;
     printf("===================================\n");
     printf("=========  ATM SEDERHANA  =========\n");
     printf("===================================\n");
+}
+
+void anggotaKelompok() {
+    printf("\nProjek Program Bahasa C");
+    printf("\n\nKelompok 2");
+    printf("\nFadhlurrahman Fikri - 40125308");   
+    printf("\nHafiz Izzudin - 40125397"); 
+    printf("\nMuhammad Shafa Triyaskhary - 40125731");
 }
 
 // Struct Data
@@ -18,14 +26,21 @@ struct Data {
     int saldo;
 };
 
+
 int main() {
     
     // Seluruh data Rekening
     struct Data rekening[3]= {
-        {11, "AAA", 1111, 1000000},
-        {22, "BBB", 2222, 2000000},
-        {33, "CCC", 3333, 3000000}
+        {11, "Hafiz", 1111, 1000000},
+        {22, "Fikri", 2222, 2000000},
+        {33, "Shafa", 3333, 3000000}
     };
+
+    //Untuk Presentasi
+    anggotaKelompok();
+    sleep(3); 
+
+    system("cls");
     banner();
     
     // Meminta input nomor Rekening
@@ -41,6 +56,7 @@ int main() {
             break; 
         }
     }
+    //bila login gagal
     if (indexLogin==-1) {
         printf("\nLogin gagal.");
         printf("\nNomor rekening tidak ditemukan.");
@@ -50,13 +66,12 @@ int main() {
     // Verifikasi PIN
     printf("\nMasukkan PIN : ");
     scanf("%d", &inputPin);
-    if (inputPin==rekening[indexLogin].pin) {
-        printf("\nNama : %s", rekening[indexLogin].nama);
-    } else {
+    if (inputPin!=rekening[indexLogin].pin) {
+        // printf("\nNama : %s", rekening[indexLogin].nama);
         printf ("\nLogin gagal.");
         printf ("\nPIN Salah.");
         return 0;
-    }
+    } // else {}
 
     //Variabel menjalankan menu
     int atmJalan=1, pilihanMenu;
@@ -81,9 +96,11 @@ int main() {
         printf("2. Transfer\n");
         printf("3. Setor Tunai\n");
         printf("4. Cek Saldo\n");
+        printf("5. Cancel\n");
         printf("Pilih menu: ");
         scanf("%d", &pilihanMenu);
         
+        //User memilih transaksi
         switch (pilihanMenu) {
 
             //Tarik Tunai
@@ -110,8 +127,9 @@ int main() {
                         printf("Masukkan nominal (Kelipatan Rp. 50.000): ");
                         scanf("%d", &nominalTarik);
 
+                        //Tidak valid jika nominalTarik=0 atau bukan pecahan 50.000
                         if (nominalTarik <= 0 || nominalTarik % 50000 != 0) {
-                            printf("\nNominal tidak valid!");
+                            printf("\nNominal tidak valid.");
                             nominalTarik = 0;
                         }
                     break;
@@ -122,7 +140,7 @@ int main() {
                 // Proses penarikan tunai
                 if (nominalTarik > 0) {
                     if (nominalTarik > rekening[indexLogin].saldo) {
-                        printf("\nSaldo tidak mencukupi");
+                        printf("\nSaldo tidak mencukupi.");
                     } else {
                         rekening[indexLogin].saldo -= nominalTarik;
                         printf("\nPenarikan berhasil.");
@@ -152,13 +170,13 @@ int main() {
 
                 // Rekening tujuan tidak ditemukan
                 if (indexTujuan == -1) {
-                    printf("\nRekening tujuan tidak ditemukan");
+                    printf("\nRekening tujuan tidak ditemukan.");
                     break;
                 }
 
                 // Tidak boleh transfer ke rekening sendiri
                 if (indexTujuan == indexLogin) {
-                    printf("\nTidak dapat transfer ke rekening sendiri");
+                    printf("\nTidak dapat transfer ke rekening sendiri.");
                     break;
                 }
 
@@ -168,14 +186,14 @@ int main() {
 
                 // Validasi nominal
                 if (nominalTransfer <= 0) {
-                    printf("\nNominal tidak valid!");
+                    printf("\nNominal tidak valid.");
                     nominalTransfer=0;
                     break;
                 }
 
                 // Cek saldo
                 if (nominalTransfer > rekening[indexLogin].saldo) {
-                    printf("\nSaldo tidak mencukupi!");
+                    printf("\nSaldo tidak mencukupi.");
                     break;
                 }
 
@@ -183,7 +201,7 @@ int main() {
                 rekening[indexLogin].saldo -= nominalTransfer;
                 rekening[indexTujuan].saldo += nominalTransfer;
 
-                printf("\nTransfer berhasil!");
+                printf("\nTransfer berhasil.");
                 printf("\nJumlah Transfer : Rp. %d", nominalTransfer);
                 printf("\nSisa Saldo Anda : Rp. %d", rekening[indexLogin].saldo);
                 break;
@@ -197,7 +215,7 @@ int main() {
                 scanf("%d", &nominalSetor);
                 //Hanya bisa setor nominal pecahan 50000
                 if (nominalSetor <= 0 || nominalSetor % 50000 != 0){
-                    printf("\nNominal tidak valid!");
+                    printf("\nNominal tidak valid");
                     nominalSetor = 0;
                 } else {
                     printf("\nSetor tunai berhasil.");
@@ -215,11 +233,16 @@ int main() {
                 printf("\nSaldo anda saat ini: Rp. %d", rekening[indexLogin].saldo);
                 break;
 
+            //Untuk langsung menyelesaikan ATM
+            case 5:
+                printf("\nTerima kasih telah menggunakan ATM.\n");
+                return 0;
+
             //Pilihan menu tidak valid
             default:
                 system("cls");
                 banner();
-                printf("\nPilihan menu tidak Valid");
+                printf("\nPilihan menu tidak Valid.");
                 break;
         }
 

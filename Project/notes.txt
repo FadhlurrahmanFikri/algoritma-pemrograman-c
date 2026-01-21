@@ -1,0 +1,8 @@
+Program ATM dengan baberapa Rekening menggunakan struct[].
+
+Minus, dalam transaksi "Transfer", tidak dapat mengecek saldo rekening tujuan setelah saldo di transfer.
+
+
+
+Referensi Utama:
+Novelius, Tristan. (2021). Program ATM Sederhana. Diakses dari https://youtu.be/-KrJDlv2mHA?si=SoJsYxFCnGaoFdWU.
